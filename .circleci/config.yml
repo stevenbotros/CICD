@@ -47,7 +47,9 @@ jobs:
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
       - checkout
-      - run: echo "hello world" > ~/output.txt
+      - run: 
+          name: "save output"
+          command: echo "hello world" > ~/output.txt
       - persist_to_workspace:
           root: ~/
           paths:
@@ -60,7 +62,9 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/
-      - run: cat ~/output.txt
+      - run: 
+          name: "print output"
+          command: cat ~/output.txt
 
 
   
