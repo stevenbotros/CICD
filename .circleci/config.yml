@@ -51,7 +51,7 @@ jobs:
           name: "save output"
           command: echo "hello world" > output.txt
       - persist_to_workspace:
-          root: ./
+          root: ~/
           paths:
             - output.txt
 
@@ -62,9 +62,9 @@ jobs:
       - checkout
       - run:
           name: "print output"
-          command: cat ./output.txt
+          command: cat ~/output.txt
       - attach_workspace:
-          at: ./
+          at: ~/
 
   
 
