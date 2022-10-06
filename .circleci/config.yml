@@ -51,7 +51,7 @@ jobs:
           name: "save output"
           command: echo "hello world" > output.txt
       - persist_to_workspace:
-          root: /tmp/workspace
+          root: C:\Steven\Private\FWD\CICD\CICD
           paths:
             - output.txt
 
@@ -64,7 +64,7 @@ jobs:
           name: "print output"
           command: cat output.txt
       - attach_workspace:
-          at: /tmp/workspace
+          at: C:\Steven\Private\FWD\CICD\CICD
 
   
 
