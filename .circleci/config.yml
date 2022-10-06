@@ -62,7 +62,7 @@ jobs:
       - checkout
       - run:
           name: "print output"
-          command: cat output.txt
+          command: cat ./output.txt
       - attach_workspace:
           at: ./
 
