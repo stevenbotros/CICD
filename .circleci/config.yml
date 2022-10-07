@@ -5,10 +5,10 @@ version: 2.1
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs'
 
-commands:
-  print_pipeline_id:
-    steps:
-      - run: echo ${CIRCLE_WORKFLOW_ID}
+# commands:
+#   print_pipeline_id:
+#     steps:
+#       - run: echo ${CIRCLE_WORKFLOW_ID}
 jobs:
   
   # print-hello:
@@ -72,11 +72,22 @@ jobs:
   #         name: "print output"
   #         command: cat ~/output.txt
 
-  print_command:
+  # print_command:
+  #   docker:
+  #     - image: circleci/node:13.8.0
+  #   steps:
+  #     - print_pipeline_id
+
+  job_failures:
     docker:
       - image: circleci/node:13.8.0
     steps:
-      - print_pipeline_id
+      - run: 
+          name: upload failed test
+          command: return 1
+          when: on_fail
+
+
 
   
 
@@ -100,6 +111,9 @@ workflows:
   #     - print_output_file:
   #         requires:
   #           - save_hello_world_output
-  say-hello-command:
+  # say-hello-command:
+  #   jobs:
+  #     - print_command
+  job_failures_test:
     jobs:
-      - print_command
+      - job_failures
