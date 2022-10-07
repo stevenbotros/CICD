@@ -3,8 +3,14 @@
 version: 2.1
 
 # Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
+# See: https://circleci.com/docs/2.0/configuration-reference/#jobs'
+
+commands:
+  print_pipeline_id:
+    steps:
+      - run: echo ${CIRCLE_WORKFLOW_ID}
 jobs:
+  
   # print-hello:
   #   # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
   #   # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
@@ -40,31 +46,39 @@ jobs:
   #    - run:
   #         name: "Print env var age stored in the Project"
   #         command: echo ${age}
-  save_hello_world_output:
-    docker:
-      - image: circleci/node:13.8.0
-    # Add steps to the job
-    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
-    steps:
-      - checkout
-      - run: 
-          name: "save output"
-          command: echo "hello world" > ~/output.txt
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - output.txt
+  # save_hello_world_output:
+  #   docker:
+  #     - image: circleci/node:13.8.0
+  #   # Add steps to the job
+  #   # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+  #   steps:
+  #     - checkout
+  #     - run: 
+  #         name: "save output"
+  #         command: echo "hello world" > ~/output.txt
+  #     - persist_to_workspace:
+  #         root: ~/
+  #         paths:
+  #           - output.txt
 
-  print_output_file:
+  # print_output_file:
+  #   docker:
+  #     - image: circleci/node:13.8.0
+  #   steps:
+  #     - checkout
+  #     - attach_workspace:
+  #         at: ~/
+  #     - run: 
+  #         name: "print output"
+  #         command: cat ~/output.txt
+
+  print_command:
     docker:
       - image: circleci/node:13.8.0
     steps:
-      - checkout
-      - attach_workspace:
-          at: ~/
-      - run: 
-          name: "print output"
-          command: cat ~/output.txt
+      - print_pipeline_id
+
+  
 
 
   
@@ -80,9 +94,12 @@ workflows:
   # print-name-workflow:
   #   jobs:
   #     - print-name
-  save-hello-output:
+  # say-hello-output:
+  #   jobs:
+  #     - save_hello_world_output
+  #     - print_output_file:
+  #         requires:
+  #           - save_hello_world_output
+  say-hello-command:
     jobs:
-      - save_hello_world_output
-      - print_output_file:
-          requires:
-            - save_hello_world_output
+      - print_command
